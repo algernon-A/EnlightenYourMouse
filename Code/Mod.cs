@@ -1,4 +1,8 @@
-﻿using ICities;
+﻿using System;
+using System.Collections.Generic;
+using ColossalFramework;
+using UnityEngine;
+using ICities;
 using ColossalFramework.UI;
 using CitiesHarmony.API;
 using AlgernonUtils;
@@ -29,6 +33,18 @@ namespace EnlightenYourMouse
             
             // Load the settings file.
             SettingsUtils.LoadSettings();
+
+            // Attaching options panel event hook - check to see if UIView is ready.
+            if (UIView.GetAView() != null)
+            {
+                // It's ready - attach the hook now.
+                OptionsPanel.OptionsEventHook();
+            }
+            else
+            {
+                // Otherwise, queue the hook for when the intro's finished loading.
+                LoadingManager.instance.m_introLoaded += OptionsPanel.OptionsEventHook;
+            }
         }
 
 
@@ -50,16 +66,9 @@ namespace EnlightenYourMouse
         /// </summary>
         public void OnSettingsUI(UIHelperBase helper)
         {
-            // Language drop down.
-            UIDropDown languageDropDown = (UIDropDown)helper.AddDropdown(Translations.Translate("TRN_CHOICE"), Translations.LanguageList, Translations.Index, (index) => { Translations.Index = index; SettingsUtils.SaveSettings(); });
-            languageDropDown.autoSize = false;
-            languageDropDown.width = 270f;
-
-            helper.AddSlider(Translations.Translate("EYM_OPT_INT"), 1f, 3f, 0.1f, MouseLight.intensityMultiplier, (value) => { MouseLight.intensityMultiplier = value; SettingsUtils.SaveSettings(); } );
-            helper.AddSlider(Translations.Translate("EYM_OPT_RNG"), 1f, 16f, 0.5f, MouseLight.rangeMultiplier, (value) => { MouseLight.rangeMultiplier = value; SettingsUtils.SaveSettings(); } );
-            helper.AddSlider(Translations.Translate("EYM_OPT_RED"), 0f, 1f, 0.01f, MouseLight.Red, (value) => { MouseLight.Red = value; SettingsUtils.SaveSettings(); } );
-            helper.AddSlider(Translations.Translate("EYM_OPT_GRN"), 0f, 1f, 0.01f, MouseLight.Green, (value) => { MouseLight.Green = value; SettingsUtils.SaveSettings(); } );
-            helper.AddSlider(Translations.Translate("EYM_OPT_BLU"), 0f, 1f, 0.01f, MouseLight.Blue, (value) => { MouseLight.Blue = value; SettingsUtils.SaveSettings(); } );
+            // Setup options panel reference.
+            OptionsPanel.optionsPanel = ((UIHelper)helper).self as UIScrollablePanel;
+            OptionsPanel.optionsPanel.autoLayout = false;
         }
     }
 }

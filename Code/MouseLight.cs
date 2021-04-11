@@ -9,12 +9,19 @@ namespace EnlightenYourMouse
     /// </summary>
     public static class MouseLight
     {
+        // Default values.
+        public const float DefaultIntensity = 1.5f;
+        public const float DefaultRange = 8f;
+        public const float DefaultRed = 1f;
+        public const float DefaultGreen = 1f;
+        public const float DefaultBlue = 1f;
+
         // Mouse lighting parameters.
-        public static float intensityMultiplier = 1f;
-        public static float rangeMultiplier = 4f;
-        private static float red = 1f;
-        private static float green = 1f;
-        private static float blue = 1f;
+        public static float intensityMultiplier = DefaultIntensity;
+        public static float rangeMultiplier = DefaultRange;
+        private static float red = DefaultRed;
+        private static float green = DefaultGreen;
+        private static float blue = DefaultBlue;
 
 
         /// <summary>

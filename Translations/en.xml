@@ -7,8 +7,11 @@
     <Translation ID="TRN_SYS" String="Use game language" />
     <Translation ID="EYM_OPT_INT" String="Light intensity" />
     <Translation ID="EYM_OPT_RNG" String="Lighting maximum range" />
+    <Translation ID="EYM_OPT_RNG" String="Lighting maximum range" />
+    <Translation ID="EYM_OPT_COL" String="Light color" />
     <Translation ID="EYM_OPT_RED" String="Red" />
     <Translation ID="EYM_OPT_GRN" String="Green" />
     <Translation ID="EYM_OPT_BLU" String="Blue" />
+    <Translation ID="EYM_OPT_DEF" String="Revert to defaults" />
   </Translations>
 </Language>

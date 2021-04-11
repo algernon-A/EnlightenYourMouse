@@ -57,16 +57,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\Loading.cs" />
     <Compile Include="Code\Mod.cs" />
     <Compile Include="Code\MouseLight.cs" />
     <Compile Include="Code\Patches\Patcher.cs" />
     <Compile Include="Code\Patches\RenderGeometry.cs" />
+    <Compile Include="Code\Settings\EYMOptionsPanel.cs" />
+    <Compile Include="Code\Settings\OptionsPanel.cs" />
     <Compile Include="Code\Settings\SettingsUtils.cs" />
     <Compile Include="Code\Settings\SettingsXML.cs" />
     <Compile Include="Code\TranslationFramework\TranslationFramework.cs" />
     <Compile Include="Code\TranslationFramework\TranslationXML.cs" />
     <Compile Include="Code\Utils\Logging.cs" />
     <Compile Include="Code\Utils\ModUtils.cs" />
+    <Compile Include="Code\Utils\UIControls.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
