@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Language UniqueName="de" ReadableName="Deutsch">
+  <Translations>
+    <Translation ID="EYM_NAM" String="EYM: Enlighten Your Mouse" />
+    <Translation ID="EYM_DESC" String="Anpassen der Mausbeleuchtung in der Nacht" />
+    <Translation ID="TRN_CHOICE" String="Sprache einstellen" />
+    <Translation ID="TRN_SYS" String="Verwende die Spiel-Sprache" />
+    <Translation ID="EYM_OPT_INT" String="Licht-Intensität" />
+    <Translation ID="EYM_OPT_RNG" String="Maximale Beleuchtungsreichweite" />
+    <Translation ID="EYM_OPT_RNG" String="Maximale Beleuchtungsreichweite" />
+    <Translation ID="EYM_OPT_COL" String="Licht-Farbe" />
+    <Translation ID="EYM_OPT_RED" String="Rot" />
+    <Translation ID="EYM_OPT_GRN" String="Grün" />
+    <Translation ID="EYM_OPT_BLU" String="Blau" />
+    <Translation ID="EYM_OPT_DEF" String="Auf Standard zurücksetzen" />
+  </Translations>
+</Language>
