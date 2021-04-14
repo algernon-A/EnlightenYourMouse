@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Language UniqueName="ru" ReadableName="Русский">
+  <Translations>
+    <Translation ID="EYM_NAM" String="EYM: Enlighten Your Mouse" />
+    <Translation ID="EYM_DESC" String="Настройка освещения курсора мыши ночью" />
+    <Translation ID="TRN_CHOICE" String="Установить язык" />
+    <Translation ID="TRN_SYS" String="Использ. системный" />
+    <Translation ID="EYM_OPT_INT" String="Интенсивность света" />
+    <Translation ID="EYM_OPT_RNG" String="Максимальный диапазон освещения" />
+    <Translation ID="EYM_OPT_COL" String="Цвет освещения" />
+    <Translation ID="EYM_OPT_RED" String="Красный" />
+    <Translation ID="EYM_OPT_GRN" String="Зелёный" />
+    <Translation ID="EYM_OPT_BLU" String="Синий" />
+    <Translation ID="EYM_OPT_DEF" String="Верн. настр. по умолч." />
+  </Translations>
+</Language>
