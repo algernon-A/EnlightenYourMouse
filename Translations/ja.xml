@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language UniqueName="ja" ReadableName="日本語">
+  <Translations>
+    <Translation ID="EYM_NAM" String="EYM: Enlighten Your Mouse"/>
+    <Translation ID="EYM_DESC" String="夜間に暗いマウスカーソルを明るく調整できます"/>
+    <Translation ID="TRN_CHOICE" String="言語の設定"/>
+    <Translation ID="TRN_SYS" String="ゲームの言語を使用"/>
+    <Translation ID="EYM_OPT_INT" String="ライトの明るさ"/>
+    <Translation ID="EYM_OPT_RNG" String="ライトの照射範囲"/>
+    <Translation ID="EYM_OPT_COL" String="ライトの色"/>
+    <Translation ID="EYM_OPT_RED" String="赤"/>
+    <Translation ID="EYM_OPT_GRN" String="緑"/>
+    <Translation ID="EYM_OPT_BLU" String="青"/>
+    <Translation ID="EYM_OPT_DEF" String="デフォルトに戻す"/>
+  </Translations>
+</Language>
