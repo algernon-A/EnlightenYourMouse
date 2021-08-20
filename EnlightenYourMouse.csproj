@@ -81,6 +81,7 @@
     <Content Include="License.txt" />
     <Content Include="Translations\de.xml" />
     <Content Include="Translations\en.xml" />
+    <Content Include="Translations\ja.xml" />
     <Content Include="Translations\ru.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using ColossalFramework;
-using UnityEngine;
-using ICities;
+﻿using ICities;
 using ColossalFramework.UI;
 using CitiesHarmony.API;
-using AlgernonUtils;
 using AlgernonTranslation;
 
 
