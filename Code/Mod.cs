@@ -1,6 +1,7 @@
 ﻿using ICities;
 using ColossalFramework.UI;
 using CitiesHarmony.API;
+using AlgernonUtils;
 using AlgernonTranslation;
 
 
@@ -22,9 +23,9 @@ namespace EnlightenYourMouse
         /// </summary>
         public void OnEnabled()
         {
-            // Apply Harmony patches via Cities Harmony.
-            // Called here instead of OnCreated to allow the auto-downloader to do its work prior to launch.
-            HarmonyHelper.DoOnHarmonyReady(() => Patcher.PatchAll());
+            // Make sure Harmony is ready via Cities Harmony.
+            // Called here instead of OnCreated to allow the auto-downloader to do its work prior to launch (actual patching is done at OnLevelLoaded).
+            HarmonyHelper.DoOnHarmonyReady(() => Logging.Message("Harmony ready"));
             
             // Load the settings file.
             SettingsUtils.LoadSettings();

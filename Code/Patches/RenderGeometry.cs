@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using UnityEngine;
+using ColossalFramework;
 using HarmonyLib;
 using AlgernonUtils;
 
@@ -72,5 +74,59 @@ namespace EnlightenYourMouse
 				}
 			}
 		}
+	}
+
+
+	/// <summary>
+	/// Harmony prefix to extend mouse lighting to selected tools that don't have it (NetTool, MoveItTool).
+	/// </summary>
+	[HarmonyPatch]
+	public static class NewMouseLight
+	{
+		/// <summary>
+		/// Determines the target method for the Prefix patch.
+		/// </summary>
+		/// <returns>RenderGeometry methods of NetTool and MoveItTool (if available)</returns>
+		public static IEnumerable<MethodBase>TargetMethods()
+        {
+			// NetTool.
+			yield return typeof(NetTool).GetMethod(nameof(NetTool.RenderGeometry));
+
+			// MoveItTool.
+			MethodBase moveItRenderGeometry = ModUtils.MoveItReflection();
+			if (moveItRenderGeometry != null)
+            {
+				yield return moveItRenderGeometry;
+            }
+        }
+
+
+		/// <summary>
+		/// Harmony Prefix patch for tool RenderGeometry method to add custom mouse lighting.
+		/// </summary>
+		/// <param name="cameraInfo">Current camera reference</param>
+		public static void Prefix(RenderManager.CameraInfo cameraInfo)
+		{
+			// If we're not in a special infomode, get raycast target point and apply mouse light.
+			if (Singleton<InfoManager>.instance.CurrentMode == InfoManager.InfoMode.None && ToolRayCast.BaseRayCast(new ToolBase.RaycastInput(Camera.main.ScreenPointToRay(Input.mousePosition), Camera.main.farClipPlane), out ToolBase.RaycastOutput output))
+			{
+				MouseLight.DrawMouseLight(cameraInfo, output.m_hitPos);
+			}
+		}
+	}
+
+
+	/// <summary>
+	/// Simple class to access ToolBase.RayCast protected static method.
+	/// </summary>
+	public class ToolRayCast : ToolBase
+	{
+		/// <summary>
+		/// Access ToolBase.RayCast protected method.
+		/// </summary>
+		/// <param name="input">Input raycast</param>
+		/// <param name="output">Output raycast</param>
+		/// <returns></returns>
+		public static bool BaseRayCast(RaycastInput input, out RaycastOutput output) => RayCast(input, out output);
 	}
 }

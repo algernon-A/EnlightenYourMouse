@@ -14,6 +14,9 @@ namespace EnlightenYourMouse
         /// <param name="mode">Loading mode (e.g. game, editor, scenario, etc.)</param>
         public override void OnLevelLoaded(LoadMode mode)
         {
+            // Apply Harmony patches.
+            Patcher.PatchAll();
+
             // Set up options panel event handler (need to redo this now that options panel has been reset after loading into game).
             OptionsPanel.OptionsEventHook();
         }

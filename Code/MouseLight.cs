@@ -22,6 +22,7 @@ namespace EnlightenYourMouse
         private static float red = DefaultRed;
         private static float green = DefaultGreen;
         private static float blue = DefaultBlue;
+        private static float toolIntensity = 1f;
 
 
         /// <summary>
@@ -65,6 +66,21 @@ namespace EnlightenYourMouse
         /// <param name="m_toolController">Current tool controller reference</param>
         public static void CustomMouseLight(RenderManager.CameraInfo cameraInfo, Vector3 m_accuratePosition, ToolController m_toolController)
         {
+            // Extract intensity from current tool controller and record it.
+            toolIntensity = m_toolController.m_MouseLightIntensity.value;
+
+            // Render light.
+            DrawMouseLight(cameraInfo, m_accuratePosition);
+        }
+
+
+        /// <summary>
+        /// Custom method to replace game code for drawing the mouse cursor light.
+        /// </summary>
+        /// <param name="cameraInfo">Current camera</param>
+        /// <param name="m_accuratePosition">Current tool accurate position</param>
+        public static void DrawMouseLight(RenderManager.CameraInfo cameraInfo, Vector3 m_accuratePosition)
+        {
             // Based on game code.
             LightSystem lightSystem = Singleton<RenderManager>.instance.lightSystem;
             Vector3 a = m_accuratePosition - cameraInfo.m_position;
@@ -72,7 +88,7 @@ namespace EnlightenYourMouse
             float range = Mathf.Sqrt(magnitude);
 
             // Multiply game intensity with our custom multiplier.
-            float intensity = m_toolController.m_MouseLightIntensity.value * intensityMultiplier;
+            float intensity = toolIntensity * intensityMultiplier;
 
             // Ditto for range.
             range *= 1f + intensity * rangeMultiplier;

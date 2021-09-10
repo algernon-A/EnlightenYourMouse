@@ -1,9 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using System.Reflection;
 using ICities;
 using ColossalFramework.Plugins;
-using AlgernonUtils;
 using EnlightenYourMouse;
 
 
@@ -47,6 +48,49 @@ namespace AlgernonUtils
             // If we got here, then we didn't find the assembly.
             Logging.Message("assembly path not found");
             throw new FileNotFoundException(EnlightenYourMouseMod.ModName + ": assembly path not found!");
+        }
+
+
+        /// <summary>
+        /// Uses reflection to find the MoveItTool.RenderGeometry method of Move It.
+        /// </summary>
+        /// <returns>MethodBase reference to MoveItTool.RenderGeometry if successful, null if unsuccessful.</returns>
+        internal static MethodBase MoveItReflection()
+        {
+            Logging.KeyMessage("Attempting to find Move It");
+
+            // Iterate through each loaded plugin assembly.
+            foreach (PluginManager.PluginInfo plugin in PluginManager.instance.GetPluginsInfo())
+            {
+                foreach (Assembly assembly in plugin.GetAssemblies())
+                {
+                    if (assembly.GetName().Name.Equals("MoveIt") && plugin.isEnabled)
+                    {
+                        Logging.KeyMessage("Found Move It");
+
+                        // Found MoveIt.dll that's part of an enabled plugin; try to get its MoveItTool class.
+                        Type moveItTools = assembly.GetType("MoveIt.MoveItTool");
+
+                        if (moveItTools != null)
+                        {
+                            // Try to get LockBuildingLevel method.
+                            MethodBase moveItRenderGeometry = moveItTools.GetMethod("RenderGeometry", BindingFlags.Public | BindingFlags.Instance);
+                            if (moveItRenderGeometry != null)
+                            {
+                                // Success!
+                                Logging.KeyMessage("found MoveItTool.RenderGeometry");
+
+                                // At this point, we're done; return.
+                                return moveItRenderGeometry;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // If we got here, we were unsuccessful.
+            Logging.KeyMessage("MoveItTool.RenderGeometry not found");
+            return null;
         }
     }
 }
