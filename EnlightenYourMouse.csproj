@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Changelog.txt" />
     <Content Include="License.txt" />
     <Content Include="PreviewImage.png" />
     <Content Include="Translations\de.xml" />

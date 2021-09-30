@@ -12,10 +12,11 @@ namespace EnlightenYourMouse
     /// </summary>
     public class EnlightenYourMouseMod : IUserMod
     {
-        public string Name => ModName;
-        public string Description => Translations.Translate("EYM_DESC");
-
         internal static string ModName => "EYM: Enlighten Your Mouse";
+        public static string Version => "1.1";
+
+        public string Name => ModName + " " + Version;
+        public string Description => Translations.Translate("EYM_DESC");
 
 
         /// <summary>
