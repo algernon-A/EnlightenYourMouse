@@ -78,7 +78,9 @@ namespace EnlightenYourMouse
 
 
 	/// <summary>
-	/// Harmony prefix to extend mouse lighting to selected tools that don't have it (NetTool, MoveItTool).
+	/// Harmony prefix to extend mouse lighting to selected tools that don't have it.
+	/// Currently supported vanilla tools: NetTool, BulldozeTool, ZoneTool.
+	/// Currently supported mod tools: MoveItTool.
 	/// </summary>
 	[HarmonyPatch]
 	public static class NewMouseLight
@@ -91,6 +93,12 @@ namespace EnlightenYourMouse
         {
 			// NetTool.
 			yield return typeof(NetTool).GetMethod(nameof(NetTool.RenderGeometry));
+
+			// BulldozeTool.
+			yield return typeof(BulldozeTool).GetMethod(nameof(BulldozeTool.RenderGeometry));
+
+			// ZoneTool.
+			yield return typeof(ZoneTool).GetMethod(nameof(ZoneTool.RenderGeometry));
 
 			// MoveItTool.
 			MethodBase moveItRenderGeometry = ModUtils.MoveItReflection();

@@ -1,3 +1,6 @@
-﻿Version 1.1
+﻿- Add mouse lighting to BulldozeTool and ZoneTool
+
+
+Version 1.1
 
 - Add mouse lighting to NetTool and MoveItTool
