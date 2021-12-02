@@ -29,7 +29,7 @@ namespace EnlightenYourMouse
             HarmonyHelper.DoOnHarmonyReady(() => Logging.Message("Harmony ready"));
             
             // Load the settings file.
-            SettingsUtils.LoadSettings();
+            ModSettings.Load();
 
             // Attaching options panel event hook - check to see if UIView is ready.
             if (UIView.GetAView() != null)

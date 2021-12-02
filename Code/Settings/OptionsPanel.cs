@@ -102,7 +102,7 @@ namespace EnlightenYourMouse
         private static void Close()
         {
             // Save settings first.
-            SettingsUtils.SaveSettings();
+            ModSettings.Save();
 
             // Enforce C# garbage collection by setting to null.
             if (_panel != null)

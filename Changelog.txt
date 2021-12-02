@@ -1,5 +1,5 @@
 ﻿- Adjust options panel layout to accomodate longer translation strings
-
+- Change settings file location from application directory to user directory
 
 Version 1.1.1
 
