@@ -51,7 +51,7 @@ namespace EnlightenYourMouse
             currentY = SliderPosition(blueSlider, currentY);
 
             // Revert to defaults button.
-            UIButton defaultsButton = UIControls.AddButton(this, Margin, currentY, Translations.Translate("EYM_OPT_DEF"));
+            UIButton defaultsButton = UIControls.AddButton(this, Margin, currentY, Translations.Translate("EYM_OPT_DEF"), width = 300f);
 
             defaultsButton.eventClicked += (control, clickEvent) =>
             {

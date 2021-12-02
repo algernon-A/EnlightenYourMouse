@@ -1,4 +1,7 @@
-﻿Version 1.1.1
+﻿- Adjust options panel layout to accomodate longer translation strings
+
+
+Version 1.1.1
 
 - Add mouse lighting to BulldozeTool and ZoneTool
 
