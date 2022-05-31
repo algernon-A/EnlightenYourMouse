@@ -16,7 +16,6 @@ namespace EnlightenYourMouse
         internal static UIScrollablePanel optionsPanel;
         private static UIPanel gameOptionsPanel;
         private static EYMOptionsPanel _panel;
-        internal static EYMOptionsPanel Panel => _panel;
 
         // Instance reference.
         private static GameObject optionsGameObject;
@@ -85,9 +84,16 @@ namespace EnlightenYourMouse
                 optionsGameObject.transform.parent = optionsPanel.transform;
 
                 _panel = optionsGameObject.AddComponent<EYMOptionsPanel>();
+                _panel.width = optionsPanel.width - 10f;
+                _panel.height = 725f;
+                _panel.clipChildren = false;
+
+                // Needed to ensure position is consistent if we regenerate after initial opening (e.g. on language change).
+                _panel.relativePosition = new Vector2(10f, 10f);
+                (_panel.parent as UIScrollablePanel).autoLayout = false;
 
                 // Set up and show panel.
-                Panel.Setup(optionsPanel.width, optionsPanel.height);
+                _panel.Setup(optionsPanel.width, optionsPanel.height);
             }
             catch (Exception e)
             {
@@ -107,6 +113,7 @@ namespace EnlightenYourMouse
             // Enforce C# garbage collection by setting to null.
             if (_panel != null)
             {
+                _panel.parent.RemoveUIComponent(_panel);
                 GameObject.Destroy(_panel);
                 _panel = null;
             }
