@@ -1,4 +1,7 @@
-﻿Version 1.1.2
+﻿- Update bundled CitiesHarmony API to 2.1.0
+
+
+Version 1.1.2
 
 - Adjust options panel layout to accomodate longer translation strings
 - Change settings file location from application directory to user directory
