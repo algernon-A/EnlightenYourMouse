@@ -24,7 +24,6 @@ namespace EnlightenYourMouse
             // Size and placement.
             this.autoSize = false;
             this.autoLayout = false;
-            this.relativePosition = new Vector2(Margin, Margin);
             this.width = width - (Margin * 2f);
             this.height = height - (Margin * 2f);
 

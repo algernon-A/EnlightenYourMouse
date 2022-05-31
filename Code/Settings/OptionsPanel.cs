@@ -90,7 +90,6 @@ namespace EnlightenYourMouse
 
                 // Needed to ensure position is consistent if we regenerate after initial opening (e.g. on language change).
                 _panel.relativePosition = new Vector2(10f, 10f);
-                (_panel.parent as UIScrollablePanel).autoLayout = false;
 
                 // Set up and show panel.
                 _panel.Setup(optionsPanel.width, optionsPanel.height);
