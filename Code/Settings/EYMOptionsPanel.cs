@@ -73,6 +73,7 @@ namespace EnlightenYourMouse
             translationDropDown.eventSelectedIndexChanged += (control, index) =>
             {
                 Translations.Index = index;
+                OptionsPanel.LocaleChanged();
             };
         }
 

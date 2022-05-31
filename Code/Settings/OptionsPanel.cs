@@ -61,7 +61,7 @@ namespace EnlightenYourMouse
         /// <summary>
         /// Refreshes the options panel (destroys and rebuilds) on a locale change when the options panel is open.
         /// </summary>
-        private static void LocaleChanged()
+        internal static void LocaleChanged()
         {
             if (gameOptionsPanel != null && gameOptionsPanel.isVisible)
             {
