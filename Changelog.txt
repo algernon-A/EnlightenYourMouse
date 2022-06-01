@@ -1,4 +1,6 @@
-﻿- Automatically refresh options panel on language change
+﻿Version 1.1.3
+
+- Automatically refresh options panel on language change
 - Update bundled CitiesHarmony API to 2.1.0
 
 
