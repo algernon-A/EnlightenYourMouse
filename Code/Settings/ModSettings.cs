@@ -5,14 +5,15 @@
 
 namespace EnlightenYourMouse
 {
-    using System;
     using System.IO;
     using System.Xml.Serialization;
-    using AlgernonCommons;
-    using AlgernonTranslation;
+    using AlgernonCommons.XML;
 
+    /// <summary>
+    /// Mod settings.
+    /// </summary>
     [XmlRoot("EnlightenYourMouse")]
-    public class ModSettings
+    public class ModSettings : SettingsXMLBase
     {
         // Settings file name.
         [XmlIgnore]
@@ -26,109 +27,48 @@ namespace EnlightenYourMouse
         [XmlIgnore]
         private static readonly string SettingsFile = Path.Combine(UserSettingsDir, SettingsFileName);
 
-        // Language.
-        [XmlElement("Language")]
-        public string Language
-        {
-            get => Translations.Language;
-
-            set => Translations.Language = value;
-        }
-
-        // Custom mouse light settings.
-
         /// <summary>
-        /// Mouse light intensity multiplier.
+        /// Gets or sets the mouse light intensity multiplier.
         /// </summary>
         public float XMLIntensity { get => MouseLight.intensityMultiplier; set => MouseLight.intensityMultiplier = value; }
 
-
         /// <summary>
-        /// Mouse light range multiplier.
+        /// Gets or sets the mouse light range multiplier.
         /// </summary>
         public float XMLRange { get => MouseLight.rangeMultiplier; set => MouseLight.rangeMultiplier = value; }
 
-
         /// <summary>
-        /// Mouse light custom color - red component.
+        /// Gets or sets the mouse light custom color - red component.
         /// </summary>
         public float XMLRed { get => MouseLight.Red; set => MouseLight.Red = value; }
 
-
         /// <summary>
-        /// Mouse light custom color - red component.
+        /// Gets or sets the mouse light custom color - red component.
         /// </summary>
         public float XMLGreen { get => MouseLight.Green; set => MouseLight.Green = value; }
 
-
         /// <summary>
-        /// Mouse light custom color - red component.
+        /// Gets or sets the mouse light custom color - red component.
         /// </summary>
         public float XMLBlue { get => MouseLight.Blue; set => MouseLight.Blue = value; }
 
-
         /// <summary>
-        /// Load settings from XML file.
+        /// Loads settings from file.
         /// </summary>
         internal static void Load()
         {
-            try
+            // If no settings file in user settings directory, move any existing settings file from application directory to user settings directory.
+            if (!File.Exists(SettingsFile) && File.Exists(SettingsFileName))
             {
-                // Attempt to read new settings file (in user settings directory).
-                string fileName = SettingsFile;
-                if (!File.Exists(fileName))
-                {
-                    // No settings file in user directory; use application directory instead.
-                    fileName = SettingsFileName;
-
-                    if (!File.Exists(fileName))
-                    {
-                        Logging.Message("no settings file found");
-                        return;
-                    }
-                }
-
-                // Read settings file.
-                using (StreamReader reader = new StreamReader(fileName))
-                {
-                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(ModSettings));
-                    if (!(xmlSerializer.Deserialize(reader) is ModSettings settingsFile))
-                    {
-                        Logging.Error("couldn't deserialize settings file");
-                    }
-                }
+                File.Move(SettingsFileName, SettingsFile);
             }
-            catch (Exception e)
-            {
-                Logging.LogException(e, "exception reading XML settings file");
-            }
+
+            XMLFileUtils.Load<ModSettings>(SettingsFile);
         }
-
 
         /// <summary>
-        /// Save settings to XML file.
+        /// Saves settings to file.
         /// </summary>
-        internal static void Save()
-        {
-            try
-            {
-                // Pretty straightforward..
-                using (StreamWriter writer = new StreamWriter(SettingsFile))
-                {
-                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(ModSettings));
-                    xmlSerializer.Serialize(writer, new ModSettings());
-                }
-
-                // Cleaning up after ourselves - delete any old config file in the application direcotry.
-                if (File.Exists(SettingsFileName))
-                {
-                    File.Delete(SettingsFileName);
-                }
-            }
-            catch (Exception e)
-            {
-                Logging.LogException(e, "exception saving XML settings file");
-            }
-        }
+        internal static void Save() => XMLFileUtils.Save<ModSettings>(SettingsFile);
     }
 }

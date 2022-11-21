@@ -7,7 +7,7 @@ namespace EnlightenYourMouse
 {
     using System.Linq;
     using AlgernonCommons.UI;
-    using AlgernonTranslation;
+    using AlgernonCommons.Translation;
     using ColossalFramework.UI;
     using UnityEngine;
 
@@ -28,6 +28,22 @@ namespace EnlightenYourMouse
             UILabels.AddLabel(this, 0f, Margin, Translations.Translate("EYM_NAM"), OptionsPanelManager<OptionsPanel>.PanelWidth, 1.5f, UIHorizontalAlignment.Center);
             float currentY = 30f;
 
+            // Language dropdown.
+            UISpacers.AddOptionsSpacer(this, Margin, currentY, OptionsPanelManager<OptionsPanel>.PanelWidth - (Margin * 2f));
+            currentY += 15f;
+            UIDropDown translationDropDown = UIDropDowns.AddPlainDropDown(this, Margin, currentY, Translations.Translate("LANGUAGE_CHOICE"), Translations.LanguageList, Translations.Index);
+
+            // Event handler.
+            translationDropDown.eventSelectedIndexChanged += (control, index) =>
+            {
+                Translations.Index = index;
+                OptionsPanelManager<OptionsPanel>.LocaleChanged();
+            };
+
+            currentY += translationDropDown.parent.height + Margin;
+            UISpacers.AddOptionsSpacer(this, Margin, currentY, OptionsPanelManager<OptionsPanel>.PanelWidth - (Margin * 2f));
+            currentY += 15f;
+
             // Effect sliders.
             UISlider intensitySlider = UISliders.AddPlainSliderWithValue(this, Margin, currentY, Translations.Translate("EYM_OPT_INT"), 1f, 3f, 0.1f, MouseLight.intensityMultiplier);
             intensitySlider.eventValueChanged += (c, value) => MouseLight.intensityMultiplier = value;
@@ -36,6 +52,9 @@ namespace EnlightenYourMouse
             UISlider rangeSlider = UISliders.AddPlainSliderWithValue(this, Margin, currentY, Translations.Translate("EYM_OPT_RNG"), 1f, 16f, 0.5f, MouseLight.rangeMultiplier);
             rangeSlider.eventValueChanged += (c, value) => MouseLight.rangeMultiplier = value;
             currentY += rangeSlider.parent.height;
+
+            UISpacers.AddOptionsSpacer(this, Margin, currentY, OptionsPanelManager<OptionsPanel>.PanelWidth - (Margin * 2f));
+            currentY += 15f;
 
             // Color sliders.
             UILabel colorLabel = UILabels.AddLabel(this, Margin, currentY, Translations.Translate("EYM_OPT_COL"), textScale: 1.3f);
@@ -64,19 +83,6 @@ namespace EnlightenYourMouse
                 redSlider.value = MouseLight.DefaultRed;
                 greenSlider.value = MouseLight.DefaultGreen;
                 blueSlider.value = MouseLight.DefaultBlue;
-            };
-
-            // Language dropdown.
-            currentY += defaultsButton.height + (Margin * 2f);
-            UISpacers.AddOptionsSpacer(this, Margin, currentY, this.width - (Margin * 2f));
-            currentY += 15f;
-            UIDropDown translationDropDown = UIDropDowns.AddPlainDropDown(this, Margin, currentY, Translations.Translate("TRN_CHOICE"), Translations.LanguageList, Translations.Index);
-
-            // Event handler.
-            translationDropDown.eventSelectedIndexChanged += (control, index) =>
-            {
-                Translations.Index = index;
-                OptionsPanelManager<OptionsPanel>.LocaleChanged();
             };
         }
     }

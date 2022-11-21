@@ -7,7 +7,7 @@ namespace EnlightenYourMouse
 {
     using ICities;
     using AlgernonCommons.Patching;
-    using AlgernonTranslation;
+    using AlgernonCommons.Translation;
 
     /// <summary>
     /// The base mod class for instantiation by the game.

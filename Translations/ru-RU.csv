@@ -1,0 +1,12 @@
+LANGUAGE,Русский
+EYM_NAM,EYM: Enlighten Your Mouse
+EYM_DESC,Настройка освещения курсора мыши ночью
+TRN_CHOICE,Установить язык
+TRN_SYS,Использ. системный
+EYM_OPT_INT,Интенсивность света
+EYM_OPT_RNG,Максимальный диапазон освещения
+EYM_OPT_COL,Цвет освещения
+EYM_OPT_RED,Красный
+EYM_OPT_GRN,Зелёный
+EYM_OPT_BLU,Синий
+EYM_OPT_DEF,Верн. настр. по умолч.
