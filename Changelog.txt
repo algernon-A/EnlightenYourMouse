@@ -1,4 +1,6 @@
-﻿- Adjust options panel layout
+﻿Version 1.2
+
+- Adjust options panel layout
 - Implement AlgernonCommons
 
 
