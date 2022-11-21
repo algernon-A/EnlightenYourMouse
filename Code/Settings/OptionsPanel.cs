@@ -6,8 +6,8 @@
 namespace EnlightenYourMouse
 {
     using System.Linq;
-    using AlgernonCommons.UI;
     using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
     using ColossalFramework.UI;
     using UnityEngine;
 
@@ -20,7 +20,7 @@ namespace EnlightenYourMouse
         private const float Margin = 5f;
 
         /// <summary>
-        /// Performs initial setup for the panel; we don't use Start() as that's not sufficiently reliable (race conditions), and is not needed with the dynamic create/destroy process.
+        /// Initializes a new instance of the <see cref="OptionsPanel"/> class.
         /// </summary>
         internal OptionsPanel()
         {
@@ -45,12 +45,12 @@ namespace EnlightenYourMouse
             currentY += 15f;
 
             // Effect sliders.
-            UISlider intensitySlider = UISliders.AddPlainSliderWithValue(this, Margin, currentY, Translations.Translate("EYM_OPT_INT"), 1f, 3f, 0.1f, MouseLight.intensityMultiplier);
-            intensitySlider.eventValueChanged += (c, value) => MouseLight.intensityMultiplier = value;
+            UISlider intensitySlider = UISliders.AddPlainSliderWithValue(this, Margin, currentY, Translations.Translate("EYM_OPT_INT"), 1f, 3f, 0.1f, MouseLight.IntensityMultiplier);
+            intensitySlider.eventValueChanged += (c, value) => MouseLight.IntensityMultiplier = value;
             currentY += intensitySlider.parent.height;
 
-            UISlider rangeSlider = UISliders.AddPlainSliderWithValue(this, Margin, currentY, Translations.Translate("EYM_OPT_RNG"), 1f, 16f, 0.5f, MouseLight.rangeMultiplier);
-            rangeSlider.eventValueChanged += (c, value) => MouseLight.rangeMultiplier = value;
+            UISlider rangeSlider = UISliders.AddPlainSliderWithValue(this, Margin, currentY, Translations.Translate("EYM_OPT_RNG"), 1f, 16f, 0.5f, MouseLight.RangeMultiplier);
+            rangeSlider.eventValueChanged += (c, value) => MouseLight.RangeMultiplier = value;
             currentY += rangeSlider.parent.height;
 
             UISpacers.AddOptionsSpacer(this, Margin, currentY, OptionsPanelManager<OptionsPanel>.PanelWidth - (Margin * 2f));

@@ -17,7 +17,7 @@ namespace EnlightenYourMouse
     {
         // Settings file name.
         [XmlIgnore]
-        internal static readonly string SettingsFileName = "EYM-settings.xml";
+        private static readonly string SettingsFileName = "EYM-settings.xml";
 
         // User settings directory.
         [XmlIgnore]
@@ -30,12 +30,12 @@ namespace EnlightenYourMouse
         /// <summary>
         /// Gets or sets the mouse light intensity multiplier.
         /// </summary>
-        public float XMLIntensity { get => MouseLight.intensityMultiplier; set => MouseLight.intensityMultiplier = value; }
+        public float XMLIntensity { get => MouseLight.IntensityMultiplier; set => MouseLight.IntensityMultiplier = value; }
 
         /// <summary>
         /// Gets or sets the mouse light range multiplier.
         /// </summary>
-        public float XMLRange { get => MouseLight.rangeMultiplier; set => MouseLight.rangeMultiplier = value; }
+        public float XMLRange { get => MouseLight.RangeMultiplier; set => MouseLight.RangeMultiplier = value; }
 
         /// <summary>
         /// Gets or sets the mouse light custom color - red component.
@@ -43,12 +43,12 @@ namespace EnlightenYourMouse
         public float XMLRed { get => MouseLight.Red; set => MouseLight.Red = value; }
 
         /// <summary>
-        /// Gets or sets the mouse light custom color - red component.
+        /// Gets or sets the mouse light custom color - green component.
         /// </summary>
         public float XMLGreen { get => MouseLight.Green; set => MouseLight.Green = value; }
 
         /// <summary>
-        /// Gets or sets the mouse light custom color - red component.
+        /// Gets or sets the mouse light custom color - blue component.
         /// </summary>
         public float XMLBlue { get => MouseLight.Blue; set => MouseLight.Blue = value; }
 

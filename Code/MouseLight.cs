@@ -5,57 +5,85 @@
 
 namespace EnlightenYourMouse
 {
-    using UnityEngine;
     using ColossalFramework;
+    using UnityEngine;
 
     /// <summary>
     /// Class to manage custom mouse cursor lighting.
     /// </summary>
     public static class MouseLight
     {
-        // Default values.
+        /// <summary>
+        /// Default mouse light intensity.
+        /// </summary>
         public const float DefaultIntensity = 1.5f;
+
+        /// <summary>
+        /// Default mouse light range.
+        /// </summary>
         public const float DefaultRange = 8f;
+
+        /// <summary>
+        /// Default mouse color - red component.
+        /// </summary>
         public const float DefaultRed = 1f;
+
+        /// <summary>
+        /// Default mouse color - green component.
+        /// </summary>
         public const float DefaultGreen = 1f;
+
+        /// <summary>
+        /// Default mouse color - blue component.
+        /// </summary>
         public const float DefaultBlue = 1f;
 
         // Mouse lighting parameters.
-        public static float intensityMultiplier = DefaultIntensity;
-        public static float rangeMultiplier = DefaultRange;
-        private static float red = DefaultRed;
-        private static float green = DefaultGreen;
-        private static float blue = DefaultBlue;
-        private static float toolIntensity = 1f;
+        private static float s_intensityMultiplier = DefaultIntensity;
+        private static float s_rangeMultiplier = DefaultRange;
+        private static float s_red = DefaultRed;
+        private static float s_green = DefaultGreen;
+        private static float s_blue = DefaultBlue;
+        private static float s_toolIntensity = 1f;
 
         /// <summary>
-        /// Custom mouse light color - red component.
+        /// Gets or sets the mouse light intensity multiplier.
         /// </summary>
-		public static float Red
-        {
-            get => red;
+        public static float IntensityMultiplier { get => s_intensityMultiplier; set => s_intensityMultiplier = value; }
 
-            set => red = Mathf.Clamp(value, 0f, 1f);
+        /// <summary>
+        /// Gets or sets the mouse light range multiplier.
+        /// </summary>
+        public static float RangeMultiplier { get => s_rangeMultiplier; set => s_rangeMultiplier = value; }
+
+        /// <summary>
+        /// Gets or sets the mouse light custom color - red component.
+        /// </summary>
+        public static float Red
+        {
+            get => s_red;
+
+            set => s_red = Mathf.Clamp(value, 0f, 1f);
         }
 
         /// <summary>
-        /// Custom mouse light color - green component.
+        /// Gets or sets the mouse light custom color - green component.
         /// </summary>
-		public static float Green
+        public static float Green
         {
-            get => green;
+            get => s_green;
 
-            set => green = Mathf.Clamp(value, 0f, 1f);
+            set => s_green = Mathf.Clamp(value, 0f, 1f);
         }
 
         /// <summary>
-        /// Custom mouse light color - blue component.
+        /// Gets or sets the mouse light custom color - blue component.
         /// </summary>
         public static float Blue
         {
-            get => blue;
+            get => s_blue;
 
-            set => blue = Mathf.Clamp(value, 0f, 1f);
+            set => s_blue = Mathf.Clamp(value, 0f, 1f);
         }
 
         /// <summary>
@@ -64,10 +92,10 @@ namespace EnlightenYourMouse
         /// <param name="cameraInfo">Current camera</param>
         /// <param name="m_accuratePosition">Current tool accurate position</param>
         /// <param name="m_toolController">Current tool controller reference</param>
-        public static void CustomMouseLight(RenderManager.CameraInfo cameraInfo, Vector3 m_accuratePosition, ToolController m_toolController)
+        internal static void CustomMouseLight(RenderManager.CameraInfo cameraInfo, Vector3 m_accuratePosition, ToolController m_toolController)
         {
             // Extract intensity from current tool controller and record it.
-            toolIntensity = m_toolController.m_MouseLightIntensity.value;
+            s_toolIntensity = m_toolController.m_MouseLightIntensity.value;
 
             // Render light.
             DrawMouseLight(cameraInfo, m_accuratePosition);
@@ -78,7 +106,7 @@ namespace EnlightenYourMouse
         /// </summary>
         /// <param name="cameraInfo">Current camera</param>
         /// <param name="m_accuratePosition">Current tool accurate position</param>
-        public static void DrawMouseLight(RenderManager.CameraInfo cameraInfo, Vector3 m_accuratePosition)
+        internal static void DrawMouseLight(RenderManager.CameraInfo cameraInfo, Vector3 m_accuratePosition)
         {
             // Based on game code.
             LightSystem lightSystem = Singleton<RenderManager>.instance.lightSystem;
@@ -87,20 +115,20 @@ namespace EnlightenYourMouse
             float range = Mathf.Sqrt(magnitude);
 
             // Multiply game intensity with our custom multiplier.
-            float intensity = toolIntensity * intensityMultiplier;
+            float intensity = s_toolIntensity * s_intensityMultiplier;
 
             // Ditto for range.
-            range *= 1f + intensity * rangeMultiplier;
+            range *= 1f + (intensity * s_rangeMultiplier);
 
             // Back to game code.
             intensity += intensity * intensity * intensity * 2f;
             intensity *= MathUtils.SmoothStep(0.9f, 0.1f, lightSystem.DayLightIntensity);
             Vector3 direction = a * (1f / Mathf.Max(1f, magnitude));
-            Vector3 position = m_accuratePosition - direction * (range * 0.2f);
+            Vector3 position = m_accuratePosition - (direction * (range * 0.2f));
             if (intensity > 0.001f)
             {
                 // Replace game color (Color.white) with our own custom color.
-                lightSystem.DrawLight(LightType.Spot, position, direction, Vector3.zero, new Color(red, green, blue), intensity, range, 90f, 1f, volume: false);
+                lightSystem.DrawLight(LightType.Spot, position, direction, Vector3.zero, new Color(s_red, s_green, s_blue), intensity, range, 90f, 1f, volume: false);
             }
         }
     }
