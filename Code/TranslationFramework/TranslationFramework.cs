@@ -3,9 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using AlgernonCommons;
 using ColossalFramework;
 using ColossalFramework.Globalization;
-using AlgernonUtils;
 
 
 namespace AlgernonTranslation
@@ -357,7 +357,7 @@ namespace AlgernonTranslation
             languages.Clear();
 
             // Get the current assembly path and append our locale directory name.
-            string assemblyPath = ModUtils.GetAssemblyPath();
+            string assemblyPath = AssemblyUtils.AssemblyPath;
             if (!assemblyPath.IsNullOrWhiteSpace())
             {
                 string localePath = Path.Combine(assemblyPath, "Translations");

@@ -1,18 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using UnityEngine;
-using ColossalFramework;
-using HarmonyLib;
-using AlgernonUtils;
-
+﻿// <copyright file="RenderGeometry.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace EnlightenYourMouse
 {
-	/// <summary>
-	/// Harmony transpiler to replace game mouse light code with custom method.
-	/// </summary>
-	[HarmonyPatch(typeof(DefaultTool), nameof(DefaultTool.RenderGeometry))]
+    using System.Collections.Generic;
+    using System.Reflection;
+    using System.Reflection.Emit;
+	using AlgernonCommons;
+    using ColossalFramework;
+    using HarmonyLib;
+    using UnityEngine;
+
+    /// <summary>
+    /// Harmony transpiler to replace game mouse light code with custom method.
+    /// </summary>
+    [HarmonyPatch(typeof(DefaultTool), nameof(DefaultTool.RenderGeometry))]
 	public static class MouseLightPatch
 	{
 		/// <summary>
@@ -76,7 +80,6 @@ namespace EnlightenYourMouse
 		}
 	}
 
-
 	/// <summary>
 	/// Harmony prefix to extend mouse lighting to selected tools that don't have it.
 	/// Currently supported vanilla tools: NetTool, BulldozeTool, ZoneTool.
@@ -108,7 +111,6 @@ namespace EnlightenYourMouse
             }
         }
 
-
 		/// <summary>
 		/// Harmony Prefix patch for tool RenderGeometry method to add custom mouse lighting.
 		/// </summary>
@@ -122,7 +124,6 @@ namespace EnlightenYourMouse
 			}
 		}
 	}
-
 
 	/// <summary>
 	/// Simple class to access ToolBase.RayCast protected static method.

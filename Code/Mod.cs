@@ -1,71 +1,42 @@
-﻿using ICities;
-using ColossalFramework.UI;
-using CitiesHarmony.API;
-using AlgernonUtils;
-using AlgernonTranslation;
-
+﻿// <copyright file="Mod.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace EnlightenYourMouse
 {
+    using ICities;
+    using AlgernonCommons.Patching;
+    using AlgernonTranslation;
+
     /// <summary>
     /// The base mod class for instantiation by the game.
     /// </summary>
-    public class EnlightenYourMouseMod : IUserMod
+    public sealed class Mod : PatcherMod<OptionsPanel, PatcherBase>, IUserMod
     {
-        internal static string ModName => "EYM: Enlighten Your Mouse";
-        public static string Version => "1.1.3";
+        /// <summary>
+        /// Gets the mod's base display name (name only).
+        /// </summary>
+        public override string BaseName => "EYM: Enlighten Your Mouse";
 
-        public string Name => ModName + " " + Version;
+        /// <summary>
+        /// Gets the mod's unique Harmony identfier.
+        /// </summary>
+        public override string HarmonyID => "algernon-A.csl.EYM";
+
+        /// <summary>
+        /// Gets the mod's description for display in the content manager.
+        /// </summary>
         public string Description => Translations.Translate("EYM_DESC");
 
+        /// <summary>
+        /// Saves settings file.
+        /// </summary>
+        public override void SaveSettings() => ModSettings.Save();
 
         /// <summary>
-        /// Called by the game when the mod is enabled.
+        /// Loads settings file.
         /// </summary>
-        public void OnEnabled()
-        {
-            // Make sure Harmony is ready via Cities Harmony.
-            // Called here instead of OnCreated to allow the auto-downloader to do its work prior to launch (actual patching is done at OnLevelLoaded).
-            HarmonyHelper.DoOnHarmonyReady(() => Logging.Message("Harmony ready"));
-            
-            // Load the settings file.
-            ModSettings.Load();
-
-            // Attaching options panel event hook - check to see if UIView is ready.
-            if (UIView.GetAView() != null)
-            {
-                // It's ready - attach the hook now.
-                OptionsPanel.OptionsEventHook();
-            }
-            else
-            {
-                // Otherwise, queue the hook for when the intro's finished loading.
-                LoadingManager.instance.m_introLoaded += OptionsPanel.OptionsEventHook;
-            }
-        }
-
-
-        /// <summary>
-        /// Called by the game when the mod is disabled.
-        /// </summary>
-        public void OnDisabled()
-        {
-            // Unapply Harmony patches via Cities Harmony.
-            if (HarmonyHelper.IsHarmonyInstalled)
-            {
-                Patcher.UnpatchAll();
-            }
-        }
-
-
-        /// <summary>
-        /// Called by the game when the mod options panel is setup.
-        /// </summary>
-        public void OnSettingsUI(UIHelperBase helper)
-        {
-            // Setup options panel reference.
-            OptionsPanel.optionsPanel = ((UIHelper)helper).self as UIScrollablePanel;
-            OptionsPanel.optionsPanel.autoLayout = false;
-        }
+        public override void LoadSettings() => ModSettings.Load();
     }
 }

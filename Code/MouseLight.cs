@@ -1,9 +1,13 @@
-﻿using UnityEngine;
-using ColossalFramework;
-
+﻿// <copyright file="MouseLight.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace EnlightenYourMouse
 {
+    using UnityEngine;
+    using ColossalFramework;
+
     /// <summary>
     /// Class to manage custom mouse cursor lighting.
     /// </summary>
@@ -24,7 +28,6 @@ namespace EnlightenYourMouse
         private static float blue = DefaultBlue;
         private static float toolIntensity = 1f;
 
-
         /// <summary>
         /// Custom mouse light color - red component.
         /// </summary>
@@ -34,7 +37,6 @@ namespace EnlightenYourMouse
 
             set => red = Mathf.Clamp(value, 0f, 1f);
         }
-
 
         /// <summary>
         /// Custom mouse light color - green component.
@@ -46,7 +48,6 @@ namespace EnlightenYourMouse
             set => green = Mathf.Clamp(value, 0f, 1f);
         }
 
-
         /// <summary>
         /// Custom mouse light color - blue component.
         /// </summary>
@@ -56,7 +57,6 @@ namespace EnlightenYourMouse
 
             set => blue = Mathf.Clamp(value, 0f, 1f);
         }
-
 
         /// <summary>
         /// Custom method to replace game code for drawing the mouse cursor light.
@@ -72,7 +72,6 @@ namespace EnlightenYourMouse
             // Render light.
             DrawMouseLight(cameraInfo, m_accuratePosition);
         }
-
 
         /// <summary>
         /// Custom method to replace game code for drawing the mouse cursor light.

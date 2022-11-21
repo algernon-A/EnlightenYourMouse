@@ -1,12 +1,16 @@
-﻿using System;
-using System.IO;
-using System.Xml.Serialization;
-using AlgernonUtils;
-using AlgernonTranslation;
-
+﻿// <copyright file="ModSettings.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace EnlightenYourMouse
 {
+    using System;
+    using System.IO;
+    using System.Xml.Serialization;
+    using AlgernonCommons;
+    using AlgernonTranslation;
+
     [XmlRoot("EnlightenYourMouse")]
     public class ModSettings
     {

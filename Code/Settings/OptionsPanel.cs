@@ -1,128 +1,83 @@
-﻿using System;
-using UnityEngine;
-using ColossalFramework.UI;
-using ColossalFramework.Globalization;
-using AlgernonUtils;
-
+﻿// <copyright file="OptionsPanel.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace EnlightenYourMouse
 {
+    using System.Linq;
+    using AlgernonCommons.UI;
+    using AlgernonTranslation;
+    using ColossalFramework.UI;
+    using UnityEngine;
+
     /// <summary>
-    /// Class to handle the mod settings options panel.
+    /// Garbage Bin Manager options panel.
     /// </summary>
-    internal static class OptionsPanel
+    public class OptionsPanel : UIPanel
     {
-        // Parent UI panel reference.
-        internal static UIScrollablePanel optionsPanel;
-        private static UIPanel gameOptionsPanel;
-        private static EYMOptionsPanel _panel;
-
-        // Instance reference.
-        private static GameObject optionsGameObject;
-        internal static bool IsOpen => optionsGameObject != null;
-
+        // Layout constants.
+        private const float Margin = 5f;
 
         /// <summary>
-        /// Attaches an event hook to options panel visibility, to create/destroy our options panel as appropriate.
-        /// Destroying when not visible saves UI overhead and performance impacts, especially with so many UITextFields.
+        /// Performs initial setup for the panel; we don't use Start() as that's not sufficiently reliable (race conditions), and is not needed with the dynamic create/destroy process.
         /// </summary>
-        internal static void OptionsEventHook()
+        internal OptionsPanel()
         {
-            // Get options panel instance.
-            gameOptionsPanel = UIView.library.Get<UIPanel>("OptionsPanel");
+            // Add title
+            UILabels.AddLabel(this, 0f, Margin, Translations.Translate("EYM_NAM"), OptionsPanelManager<OptionsPanel>.PanelWidth, 1.5f, UIHorizontalAlignment.Center);
+            float currentY = 30f;
 
-            if (gameOptionsPanel == null)
+            // Effect sliders.
+            UISlider intensitySlider = UISliders.AddPlainSliderWithValue(this, Margin, currentY, Translations.Translate("EYM_OPT_INT"), 1f, 3f, 0.1f, MouseLight.intensityMultiplier);
+            intensitySlider.eventValueChanged += (c, value) => MouseLight.intensityMultiplier = value;
+            currentY += intensitySlider.parent.height;
+
+            UISlider rangeSlider = UISliders.AddPlainSliderWithValue(this, Margin, currentY, Translations.Translate("EYM_OPT_RNG"), 1f, 16f, 0.5f, MouseLight.rangeMultiplier);
+            rangeSlider.eventValueChanged += (c, value) => MouseLight.rangeMultiplier = value;
+            currentY += rangeSlider.parent.height;
+
+            // Color sliders.
+            UILabel colorLabel = UILabels.AddLabel(this, Margin, currentY, Translations.Translate("EYM_OPT_COL"), textScale: 1.3f);
+            colorLabel.font = Resources.FindObjectsOfTypeAll<UIFont>().FirstOrDefault((UIFont f) => f.name == "OpenSans-Semibold");
+            currentY += colorLabel.height + Margin;
+
+            UISlider redSlider = UISliders.AddPlainSliderWithValue(this, Margin, currentY, Translations.Translate("EYM_OPT_RED"), 0f, 1f, 0.01f, MouseLight.Red);
+            redSlider.eventValueChanged += (c, value) => MouseLight.Red = value;
+            currentY += redSlider.parent.height;
+
+            UISlider greenSlider = UISliders.AddPlainSliderWithValue(this, Margin, currentY, Translations.Translate("EYM_OPT_GRN"), 0f, 1f, 0.01f, MouseLight.Green);
+            greenSlider.eventValueChanged += (c, value) => MouseLight.Green = value;
+            currentY += greenSlider.parent.height;
+
+            UISlider blueSlider = UISliders.AddPlainSliderWithValue(this, Margin, currentY, Translations.Translate("EYM_OPT_BLU"), 0f, 1f, 0.01f, MouseLight.Blue);
+            blueSlider.eventValueChanged += (c, value) => MouseLight.Blue = value;
+            currentY += blueSlider.parent.height;
+
+            // Revert to defaults button.
+            UIButton defaultsButton = UIButtons.AddButton(this, Margin, currentY, Translations.Translate("EYM_OPT_DEF"), width: 300f, scale: 1.1f);
+
+            defaultsButton.eventClicked += (control, clickEvent) =>
             {
-                Logging.Error("couldn't find OptionsPanel");
-            }
-            else
+                intensitySlider.value = MouseLight.DefaultIntensity;
+                rangeSlider.value = MouseLight.DefaultRange;
+                redSlider.value = MouseLight.DefaultRed;
+                greenSlider.value = MouseLight.DefaultGreen;
+                blueSlider.value = MouseLight.DefaultBlue;
+            };
+
+            // Language dropdown.
+            currentY += defaultsButton.height + (Margin * 2f);
+            UISpacers.AddOptionsSpacer(this, Margin, currentY, this.width - (Margin * 2f));
+            currentY += 15f;
+            UIDropDown translationDropDown = UIDropDowns.AddPlainDropDown(this, Margin, currentY, Translations.Translate("TRN_CHOICE"), Translations.LanguageList, Translations.Index);
+
+            // Event handler.
+            translationDropDown.eventSelectedIndexChanged += (control, index) =>
             {
-                // Simple event hook to create/destroy GameObject based on appropriate visibility.
-                gameOptionsPanel.eventVisibilityChanged += (control, isVisible) =>
-                {
-                    // Create/destroy based on whether or not we're now visible.
-                    if (isVisible)
-                    {
-                        Create();
-                    }
-                    else
-                    {
-                        Close();
-                    }
-                };
-
-                // Recreate panel on system locale change.
-                LocaleManager.eventLocaleChanged += LocaleChanged;
-            }
-        }
-
-
-        /// <summary>
-        /// Refreshes the options panel (destroys and rebuilds) on a locale change when the options panel is open.
-        /// </summary>
-        internal static void LocaleChanged()
-        {
-            if (gameOptionsPanel != null && gameOptionsPanel.isVisible)
-            {
-                Close();
-                Create();
-            }
-        }
-
-
-        /// <summary>
-        /// Creates the panel object in-game and displays it.
-        /// </summary>
-        private static void Create()
-        {
-            try
-            {
-                // We're now visible - create our gameobject, and give it a unique name for easy finding with ModTools.
-                optionsGameObject = new GameObject("EYMOptionsPanel");
-
-                // Attach to game options panel.
-                optionsGameObject.transform.parent = optionsPanel.transform;
-
-                _panel = optionsGameObject.AddComponent<EYMOptionsPanel>();
-                _panel.width = optionsPanel.width - 10f;
-                _panel.height = 725f;
-                _panel.clipChildren = false;
-
-                // Needed to ensure position is consistent if we regenerate after initial opening (e.g. on language change).
-                _panel.relativePosition = new Vector2(10f, 10f);
-
-                // Set up and show panel.
-                _panel.Setup(optionsPanel.width, optionsPanel.height);
-            }
-            catch (Exception e)
-            {
-                Logging.LogException(e, "exception creating options panel");
-            }
-        }
-
-
-        /// <summary>
-        /// Closes the panel by destroying the object (removing any ongoing UI overhead).
-        /// </summary>
-        private static void Close()
-        {
-            // Save settings first.
-            ModSettings.Save();
-
-            // Enforce C# garbage collection by setting to null.
-            if (_panel != null)
-            {
-                _panel.parent.RemoveUIComponent(_panel);
-                GameObject.Destroy(_panel);
-                _panel = null;
-            }
-
-            // We're no longer visible - destroy our game object.
-            if (optionsGameObject != null)
-            {
-                GameObject.Destroy(optionsGameObject);
-                optionsGameObject = null;
-            }
+                Translations.Index = index;
+                OptionsPanelManager<OptionsPanel>.LocaleChanged();
+            };
         }
     }
 }

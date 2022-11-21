@@ -1,56 +1,20 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Collections.Generic;
-using System.Reflection;
-using ICities;
-using ColossalFramework.Plugins;
-using EnlightenYourMouse;
+﻿// <copyright file="ModUtils.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
-
-namespace AlgernonUtils
+namespace EnlightenYourMouse
 {
+    using System;
+    using System.Reflection;
+    using AlgernonCommons;
+    using ColossalFramework.Plugins;
+
     /// <summary>
     /// Class that manages interactions with other mods, including compatibility and functionality checks.
     /// </summary>
     internal static class ModUtils
     {
-        /// <summary>
-        /// Returns the filepath of the current mod assembly.
-        /// </summary>
-        /// <returns>Mod assembly filepath</returns>
-        internal static string GetAssemblyPath()
-        {
-            // Get list of currently active plugins.
-            IEnumerable<PluginManager.PluginInfo> plugins = PluginManager.instance.GetPluginsInfo();
-
-            // Iterate through list.
-            foreach (PluginManager.PluginInfo plugin in plugins)
-            {
-                try
-                {
-                    // Get all (if any) mod instances from this plugin.
-                    IUserMod[] mods = plugin.GetInstances<IUserMod>();
-
-                    // Check to see if the primary instance is this mod.
-                    if (mods.FirstOrDefault() is EnlightenYourMouseMod)
-                    {
-                        // Found it! Return path.
-                        return plugin.modPath;
-                    }
-                }
-                catch
-                {
-                    // Don't care.
-                }
-            }
-
-            // If we got here, then we didn't find the assembly.
-            Logging.Message("assembly path not found");
-            throw new FileNotFoundException(EnlightenYourMouseMod.ModName + ": assembly path not found!");
-        }
-
-
         /// <summary>
         /// Uses reflection to find the MoveItTool.RenderGeometry method of Move It.
         /// </summary>
