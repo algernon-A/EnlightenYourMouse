@@ -1,13 +1,10 @@
-LANGUAGE,Deutsch
-EYM_NAM,EYM: Enlighten Your Mouse
-EYM_DESC,Anpassen der Mausbeleuchtung in der Nacht
-TRN_CHOICE,Sprache einstellen
-TRN_SYS,Verwende die Spiel-Sprache
-EYM_OPT_INT,Licht-Intensität
-EYM_OPT_RNG,Maximale Beleuchtungsreichweite
-EYM_OPT_RNG,Maximale Beleuchtungsreichweite
-EYM_OPT_COL,Licht-Farbe
-EYM_OPT_RED,Rot
-EYM_OPT_GRN,Grün
-EYM_OPT_BLU,Blau
-EYM_OPT_DEF,Auf Standard zurücksetzen
+"LANGUAGE","Deutsch"
+"EYM_NAM","EYM: Enlighten Your Mouse"
+"EYM_DESC","Anpassen der Mausbeleuchtung in der Nacht"
+"EYM_OPT_INT","Licht-Intensität"
+"EYM_OPT_RNG","Maximale Beleuchtungsreichweite"
+"EYM_OPT_COL","Licht-Farbe"
+"EYM_OPT_RED","Rot"
+"EYM_OPT_GRN","Grün"
+"EYM_OPT_BLU","Blau"
+"EYM_OPT_DEF","Auf Standard zurücksetzen"

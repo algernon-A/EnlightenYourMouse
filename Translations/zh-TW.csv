@@ -1,12 +1,10 @@
-LANGUAGE,正體中文
-EYM_NAM,EYM: 夜間滑鼠光亮調節器
-EYM_DESC,自訂夜間滑鼠光亮
-TRN_CHOICE,語言設置
-TRN_SYS,使用遊戲預設語言
-EYM_OPT_INT,光亮強度
-EYM_OPT_RNG,光亮最大范圍
-EYM_OPT_COL,光亮顏色
-EYM_OPT_RED,紅
-EYM_OPT_GRN,綠
-EYM_OPT_BLU,藍
-EYM_OPT_DEF,重置預設值
+"LANGUAGE","正體中文"
+"EYM_NAM","EYM: 夜間滑鼠光亮調節器"
+"EYM_DESC","自訂夜間滑鼠光亮"
+"EYM_OPT_INT","光亮強度"
+"EYM_OPT_RNG","光亮最大范圍"
+"EYM_OPT_COL","光亮顏色"
+"EYM_OPT_RED","紅"
+"EYM_OPT_GRN","綠"
+"EYM_OPT_BLU","藍"
+"EYM_OPT_DEF","重置預設值"
