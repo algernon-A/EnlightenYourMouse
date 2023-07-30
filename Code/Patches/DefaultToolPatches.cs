@@ -5,27 +5,46 @@
 
 namespace EnlightenYourMouse
 {
+    using System;
     using System.Collections.Generic;
+    using System.Reflection;
     using System.Reflection.Emit;
     using AlgernonCommons;
     using HarmonyLib;
+    using UnityEngine;
 
     /// <summary>
-    /// Harmony transpiler to replace game mouse light code with custom method.
+    /// Harmony patches to replace game mouse light code.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]
     [HarmonyPatch(typeof(DefaultTool), nameof(DefaultTool.RenderGeometry))]
-    public static class DefaultToolPatch
+    public static class DefaultToolPatches
     {
+        /// <summary>
+        /// Harmony pre-emptive prefix for DefaultTool.EnableMouseLight to always disable default game light.
+        /// </summary>
+        /// <param name="__result">Original method result.</param>
+        /// <returns>Always <c>false</c> (never execute original method).</returns>
+        [HarmonyPatch("EnableMouseLight")]
+        public static bool Prefix(out bool __result)
+        {
+            __result = false;
+            return false;
+        }
+
         /// <summary>
         /// Harmony transpiler to replace game mouse light code in DefaultTool.RenderGeometry with a call to our custom method.
         /// </summary>
         /// <param name="instructions">Original ILCode.</param>
         /// <returns>Modified ILCode.</returns>
-        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        [HarmonyPatch(nameof(DefaultTool.RenderGeometry))]
+        [HarmonyTranspiler]
+        public static IEnumerable<CodeInstruction> RenderGeometryTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             // Instruction parsing.
             IEnumerator<CodeInstruction> instructionsEnumerator = instructions.GetEnumerator();
             CodeInstruction instruction;
+            MethodInfo drawLight = AccessTools.Method(typeof(LightSystem), nameof(LightSystem.DrawLight), new Type[] { typeof(LightType), typeof(Vector3), typeof(Vector3), typeof(Vector3), typeof(Color), typeof(float), typeof(float), typeof(float), typeof(float), typeof(bool) });
 
             // Flag to indicate when we're omitting game code.
             bool isSkipping = false;
@@ -57,9 +76,9 @@ namespace EnlightenYourMouse
                 if (isSkipping)
                 {
                     // Yes - see if we can find the call to DrawLight that is the last instruction skipped.
-                    if (instruction.opcode == OpCodes.Callvirt && instruction.operand.ToString().StartsWith("Void DrawLight"))
+                    if (instruction.Calls(drawLight))
                     {
-                        Logging.Message("found Callvirt with operand ", instruction.operand.ToString(), "; stopping skipping");
+                        Logging.Message("found LightSystem.DrawLight; stopping skipping");
 
                         // Stop skipping after this instruction.
                         isSkipping = false;

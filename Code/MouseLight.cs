@@ -5,7 +5,9 @@
 
 namespace EnlightenYourMouse
 {
+    using AlgernonCommons.UI;
     using ColossalFramework;
+    using UnifiedUI.Helpers;
     using UnityEngine;
 
     /// <summary>
@@ -45,6 +47,9 @@ namespace EnlightenYourMouse
         private static float s_green = DefaultGreen;
         private static float s_blue = DefaultBlue;
         private static float s_toolIntensity = 1f;
+
+        // Light toggle.
+        private static bool s_enabled = true;
 
         /// <summary>
         /// Gets or sets the mouse light intensity multiplier.
@@ -108,6 +113,12 @@ namespace EnlightenYourMouse
         /// <param name="m_accuratePosition">Current tool accurate position</param>
         internal static void DrawMouseLight(RenderManager.CameraInfo cameraInfo, Vector3 m_accuratePosition)
         {
+            // Don't do anything if not enabled.
+            if (!s_enabled)
+            {
+                return;
+            }
+
             // Based on game code.
             LightSystem lightSystem = Singleton<RenderManager>.instance.lightSystem;
             Vector3 a = m_accuratePosition - cameraInfo.m_position;
@@ -130,6 +141,23 @@ namespace EnlightenYourMouse
                 // Replace game color (Color.white) with our own custom color.
                 lightSystem.DrawLight(LightType.Spot, position, direction, Vector3.zero, new Color(s_red, s_green, s_blue), intensity, range, 90f, 1f, volume: false);
             }
+        }
+
+        /// <summary>
+        /// Adds the UUI button.
+        /// </summary>
+        internal static void AddUUIButton()
+        {
+            UUICustomButton uuiButton = UUIHelpers.RegisterCustomButton(
+                name: (Mod.Instance as Mod)?.Name,
+                groupName: null, // default group
+                tooltip: (Mod.Instance as Mod)?.Name,
+                icon: UUIHelpers.LoadTexture(UUIHelpers.GetFullPath<Mod>("Resources", "EYM-UUI.png")),
+                onToggle: (value) => s_enabled = value
+                );
+
+            // Set initial state.
+            uuiButton.IsPressed = s_enabled;
         }
     }
 }
