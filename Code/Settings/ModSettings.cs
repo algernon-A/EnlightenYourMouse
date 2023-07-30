@@ -7,7 +7,9 @@ namespace EnlightenYourMouse
 {
     using System.IO;
     using System.Xml.Serialization;
+    using AlgernonCommons.Keybinding;
     using AlgernonCommons.XML;
+    using UnityEngine;
 
     /// <summary>
     /// Mod settings.
@@ -15,6 +17,10 @@ namespace EnlightenYourMouse
     [XmlRoot("EnlightenYourMouse")]
     public class ModSettings : SettingsXMLBase
     {
+        // UUI hotkey.
+        [XmlIgnore]
+        private static readonly UnsavedInputKey UUIKey = new UnsavedInputKey(name: "Mouse light toggle", keyCode: KeyCode.M, control: false, shift: false, alt: true);
+
         // Settings file name.
         [XmlIgnore]
         private static readonly string SettingsFileName = "EYM-settings.xml";
@@ -51,6 +57,23 @@ namespace EnlightenYourMouse
         /// Gets or sets the mouse light custom color - blue component.
         /// </summary>
         public float XMLBlue { get => MouseLight.Blue; set => MouseLight.Blue = value; }
+
+        /// <summary>
+        /// Gets or sets the toggle key.
+        /// </summary>
+        [XmlElement("ToggleKey")]
+        public Keybinding XMLToggleKey
+        {
+            get => UUIKey.Keybinding;
+
+            set => UUIKey.Keybinding = value;
+        }
+
+        /// <summary>
+        /// Gets the current hotkey as a UUI UnsavedInputKey.
+        /// </summary>
+        [XmlIgnore]
+        internal static UnsavedInputKey ToggleKey => UUIKey;
 
         /// <summary>
         /// Loads settings from file.

@@ -6,6 +6,7 @@
 namespace EnlightenYourMouse
 {
     using System.Linq;
+    using AlgernonCommons.Keybinding;
     using AlgernonCommons.Translation;
     using AlgernonCommons.UI;
     using ColossalFramework.UI;
@@ -75,6 +76,7 @@ namespace EnlightenYourMouse
 
             // Revert to defaults button.
             UIButton defaultsButton = UIButtons.AddButton(this, Margin, currentY, Translations.Translate("EYM_OPT_DEF"), width: 300f, scale: 1.1f);
+            currentY += defaultsButton.height;
 
             defaultsButton.eventClicked += (control, clickEvent) =>
             {
@@ -84,6 +86,13 @@ namespace EnlightenYourMouse
                 greenSlider.value = MouseLight.DefaultGreen;
                 blueSlider.value = MouseLight.DefaultBlue;
             };
+
+            currentY += 30f;
+            UISpacers.AddOptionsSpacer(this, Margin, currentY, OptionsPanelManager<OptionsPanel>.PanelWidth - (Margin * 2f));
+            currentY += 15f;
+
+            // Hotkey control.
+            OptionsKeymapping anarchyKeyMapping = OptionsKeymapping.AddKeymapping(this, Margin, currentY, Translations.Translate("KEY_TOGGLE"), ModSettings.ToggleKey.Keybinding);
         }
     }
 }

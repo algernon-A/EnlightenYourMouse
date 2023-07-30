@@ -5,7 +5,7 @@
 
 namespace EnlightenYourMouse
 {
-    using AlgernonCommons.UI;
+    using AlgernonCommons.Keybinding;
     using ColossalFramework;
     using UnifiedUI.Helpers;
     using UnityEngine;
@@ -94,9 +94,9 @@ namespace EnlightenYourMouse
         /// <summary>
         /// Custom method to replace game code for drawing the mouse cursor light.
         /// </summary>
-        /// <param name="cameraInfo">Current camera</param>
-        /// <param name="m_accuratePosition">Current tool accurate position</param>
-        /// <param name="m_toolController">Current tool controller reference</param>
+        /// <param name="cameraInfo">Current camera.</param>
+        /// <param name="m_accuratePosition">Current tool accurate position.</param>
+        /// <param name="m_toolController">Current tool controller reference.</param>
         internal static void CustomMouseLight(RenderManager.CameraInfo cameraInfo, Vector3 m_accuratePosition, ToolController m_toolController)
         {
             // Extract intensity from current tool controller and record it.
@@ -109,8 +109,8 @@ namespace EnlightenYourMouse
         /// <summary>
         /// Custom method to replace game code for drawing the mouse cursor light.
         /// </summary>
-        /// <param name="cameraInfo">Current camera</param>
-        /// <param name="m_accuratePosition">Current tool accurate position</param>
+        /// <param name="cameraInfo">Current camera.</param>
+        /// <param name="m_accuratePosition">Current tool accurate position.</param>
         internal static void DrawMouseLight(RenderManager.CameraInfo cameraInfo, Vector3 m_accuratePosition)
         {
             // Don't do anything if not enabled.
@@ -153,8 +153,8 @@ namespace EnlightenYourMouse
                 groupName: null, // default group
                 tooltip: (Mod.Instance as Mod)?.Name,
                 icon: UUIHelpers.LoadTexture(UUIHelpers.GetFullPath<Mod>("Resources", "EYM-UUI.png")),
-                onToggle: (value) => s_enabled = value
-                );
+                onToggle: (value) => s_enabled = value,
+                hotkeys: new UUIHotKeys { ActivationKey = ModSettings.ToggleKey });
 
             // Set initial state.
             uuiButton.IsPressed = s_enabled;
