@@ -1,5 +1,6 @@
 ﻿- Add UUI light toggle
 - Update AlgernonCommons
+- Update bundled CitiesHarmony API to 2.2.0
 
 
 Version 1.2
