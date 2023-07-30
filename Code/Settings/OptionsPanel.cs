@@ -14,15 +14,15 @@ namespace EnlightenYourMouse
     /// <summary>
     /// Garbage Bin Manager options panel.
     /// </summary>
-    public class OptionsPanel : UIPanel
+    public class OptionsPanel : OptionsPanelBase
     {
         // Layout constants.
         private const float Margin = 5f;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OptionsPanel"/> class.
+        /// Performs on-demand panel setup.
         /// </summary>
-        internal OptionsPanel()
+        protected override void Setup()
         {
             // Add title
             UILabels.AddLabel(this, 0f, Margin, Translations.Translate("EYM_NAM"), OptionsPanelManager<OptionsPanel>.PanelWidth, 1.5f, UIHorizontalAlignment.Center);
